@@ -1,27 +1,33 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "@next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Breadcrumbs, Footer, Hero, Navbar } from "@/components/common";
+import { CourseList } from "@/components/course";
+import { OrderCard } from "@/components/order";
+import { EthRates, WalletBar } from "@/components/web3";
 
 export default function Home() {
 	return (
-		<>
-			<div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4">
-				<div className="shrink-0">
-					<img
-						className="h-12 w-12"
-						src="/vercel.svg"
-						alt="ChitChat Logo"
-					/>
-				</div>
-				<div>
-					<div className="text-xl font-medium text-black">
-						ChitChat
+		<div>
+			<div className="relative bg-white overflow-hidden">
+				<div className="relative max-w-7xl mx-auto px-4">
+					<Navbar />
+
+					<div className="fit">
+						<Hero />
+
+						<Breadcrumbs />
+
+						<WalletBar />
+
+						<EthRates />
+
+						<OrderCard />
+
+						<CourseList />
 					</div>
-					<p className="text-slate-500">You have a new message!</p>
 				</div>
+				{/*------ FOOTER STARTS ------*/}
+				<Footer />
+				{/*------ FOOTER ENDS ------*/}
 			</div>
-		</>
+		</div>
 	);
 }
