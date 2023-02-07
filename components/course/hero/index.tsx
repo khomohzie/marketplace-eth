@@ -1,4 +1,10 @@
-const Hero = () => {
+type THeroProps = {
+	title: string;
+	description: string;
+	image: string;
+};
+
+const Hero = ({ title, description, image }: THeroProps) => {
 	return (
 		<section>
 			<div className="relative bg-white overflow-hidden">
@@ -18,17 +24,14 @@ const Hero = () => {
 							<div className="sm:text-center lg:text-left">
 								<h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
 									<span className="block xl:inline">
-										Your Course Name
+										{title.substring(0, title.length / 2)}
 									</span>
 									<span className="block text-indigo-600 xl:inline">
-										rest of the name
+										{title.substring(title.length / 2)}
 									</span>
 								</h1>
 								<p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-									Anim aute id magna aliqua ad ad non deserunt
-									sunt. Qui irure qui lorem cupidatat commodo.
-									Elit sunt amet fugiat veniam occaecat fugiat
-									aliqua.
+									{description}
 								</p>
 								<div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
 									<div className="rounded-md shadow">
@@ -52,12 +55,12 @@ const Hero = () => {
 						</main>
 					</div>
 				</div>
-				
+
 				<div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
 					<img
-						className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
-						src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80"
-						alt=""
+						className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full xss:hidden sm:block"
+						src={image}
+						alt={title}
 					/>
 				</div>
 			</div>

@@ -32,6 +32,12 @@
       "@styles/*": [
         "styles/*"
       ],
+      "@interfaces/*": [
+        "interfaces/*"
+      ],
+      "@courses_content/*": [
+        "courses_content/*"
+      ],
     }
   },
   "include": [

@@ -1,33 +1,29 @@
-import { Breadcrumbs, Footer, Hero, Navbar } from "@/components/common";
+import { Hero } from "@/components/common";
 import { CourseList } from "@/components/course";
-import { OrderCard } from "@/components/order";
-import { EthRates, WalletBar } from "@/components/web3";
+import { BaseLayout } from "@/components/layout";
+import { getAllCourses } from "@/courses_content/fetcher";
+import { ICourse } from "@/interfaces";
 
-export default function Home() {
+interface IHomeProps {
+	courses: ICourse[];
+}
+
+export default function Home({ courses }: IHomeProps) {
 	return (
-		<div>
-			<div className="relative bg-white overflow-hidden">
-				<div className="relative max-w-7xl mx-auto px-4">
-					<Navbar />
+		<>
+			<Hero />
 
-					<div className="fit">
-						<Hero />
-
-						<Breadcrumbs />
-
-						<WalletBar />
-
-						<EthRates />
-
-						<OrderCard />
-
-						<CourseList />
-					</div>
-				</div>
-				{/*------ FOOTER STARTS ------*/}
-				<Footer />
-				{/*------ FOOTER ENDS ------*/}
-			</div>
-		</div>
+			<CourseList courses={courses} />
+		</>
 	);
 }
+
+export function getStaticProps() {
+	const { data } = getAllCourses();
+
+	return {
+		props: { courses: data },
+	};
+}
+
+Home.Layout = BaseLayout;
