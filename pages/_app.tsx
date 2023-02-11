@@ -3,6 +3,9 @@ import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { ScriptProps } from "next/script";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 type Page<P = Record<string, never>> = NextPage<P> & {
 	Layout: (page: ScriptProps) => JSX.Element;
 };
@@ -18,6 +21,7 @@ const App = ({ Component, pageProps }: Props) => {
 
 	return (
 		<Layout>
+			<ToastContainer theme="colored" />
 			<Component {...pageProps} />
 		</Layout>
 	);
