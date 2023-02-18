@@ -1,11 +1,18 @@
+import { useWeb3 } from "@/components/providers";
 import Link from "next/link";
+import Button from "../button";
 
 const Navbar = () => {
+	const { connect, isLoading, isWeb3Loaded, hooks } = useWeb3() || {};
+
+	const { account } = hooks?.useAccount()!;
+
 	return (
 		<section>
+			{account}
 			<div className="relative pt-6 px-4 sm:px-6 lg:px-8">
 				<nav className="relative" aria-label="Global">
-					<div className="flex justify-between">
+					<div className="flex justify-between items-center">
 						<div>
 							<Link
 								href="/"
@@ -34,12 +41,24 @@ const Navbar = () => {
 								Wishlist
 							</Link>
 
-							<Link
-								href="#"
-								className="rounded-md shadow px-8 py-3 border text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-							>
-								Connect
-							</Link>
+							{isLoading ? (
+								<Button disabled={true} onClick={connect!}>
+									Loading...
+								</Button>
+							) : isWeb3Loaded ? (
+								<Button onClick={connect!}>Connect</Button>
+							) : (
+								<Button
+									onClick={() =>
+										window.open(
+											"https://metamask.io/download",
+											"_blank"
+										)
+									}
+								>
+									Install Metamask
+								</Button>
+							)}
 						</div>
 					</div>
 				</nav>

@@ -3,17 +3,23 @@ import {
 	ReactNode,
 	useContext,
 	useEffect,
+	useMemo,
 	useState,
 } from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
 import Web3 from "web3";
-import { MetaMaskEthereumProvider } from "@/types";
+import { MetaMaskEthereumProvider } from "@/interfaces";
+import { toast } from "react-toastify";
+import { setupHooks } from "./hooks/setupHooks";
 
 type TContextValue = {
+	connect: () => void;
+	hooks: { useAccount: () => { account: string | null } };
 	provider: MetaMaskEthereumProvider;
 	web3: Web3;
 	contract: null;
 	isLoading: boolean;
+	isWeb3Loaded: boolean;
 };
 
 const Web3Context = createContext<null | TContextValue>(null);
@@ -48,8 +54,34 @@ export default function Web3Provider({ children }: { children: ReactNode }) {
 		loadProvider();
 	}, []);
 
+	const _web3Api = useMemo(() => {
+		const { web3, provider } = web3Api;
+
+		return {
+			...web3Api,
+			isWeb3Loaded: web3 != null,
+			hooks: setupHooks(web3),
+			connect: provider
+				? async () => {
+						try {
+							await provider.request({
+								method: "eth_requestAccounts",
+							});
+						} catch (error) {
+							location.reload();
+						}
+				  }
+				: () => {
+						console.log(
+							"Cannot connect to Metamask! Try to reload your browser"
+						);
+						toast.error("Please install Metamask!");
+				  },
+		};
+	}, [web3Api]);
+
 	return (
-		<Web3Context.Provider value={web3Api}>{children}</Web3Context.Provider>
+		<Web3Context.Provider value={_web3Api}>{children}</Web3Context.Provider>
 	);
 }
 
