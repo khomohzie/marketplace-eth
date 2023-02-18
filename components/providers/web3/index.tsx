@@ -14,7 +14,11 @@ import { setupHooks } from "./hooks/setupHooks";
 
 type TContextValue = {
 	connect: () => void;
-	hooks: { useAccount: () => { account: string | null } };
+	getHooks: () => {
+		useAccount: () => {
+			account: string | null;
+		};
+	};
 	provider: MetaMaskEthereumProvider;
 	web3: Web3;
 	contract: null;
@@ -60,7 +64,7 @@ export default function Web3Provider({ children }: { children: ReactNode }) {
 		return {
 			...web3Api,
 			isWeb3Loaded: web3 != null,
-			hooks: setupHooks(web3),
+			getHooks: () => setupHooks(web3),
 			connect: provider
 				? async () => {
 						try {
@@ -87,4 +91,22 @@ export default function Web3Provider({ children }: { children: ReactNode }) {
 
 export function useWeb3() {
 	return useContext(Web3Context);
+}
+
+export function useHooks(
+	cb: (
+		hooks: ReturnType<
+			() => {
+				useAccount: () => {
+					account: string | null;
+				};
+			}
+		>
+	) => () => {
+		account: string | null;
+	}
+) {
+	const { getHooks } = useWeb3()!;
+
+	return cb(getHooks());
 }

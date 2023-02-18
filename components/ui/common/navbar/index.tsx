@@ -1,11 +1,12 @@
+import { useAccount } from "@/components/hooks/web3";
 import { useWeb3 } from "@/components/providers";
 import Link from "next/link";
 import Button from "../button";
 
 const Navbar = () => {
-	const { connect, isLoading, isWeb3Loaded, hooks } = useWeb3() || {};
+	const { connect, isLoading, isWeb3Loaded } = useWeb3() || {};
 
-	const { account } = hooks?.useAccount()!;
+	const { account } = useAccount();
 
 	return (
 		<section>
