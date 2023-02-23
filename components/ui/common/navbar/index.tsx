@@ -1,12 +1,15 @@
 import { useAccount } from "@/components/hooks/web3";
 import { useWeb3 } from "@/components/providers";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import Button from "../button";
 
 const Navbar = () => {
 	const { connect, isLoading, isWeb3Loaded } = useWeb3() || {};
 
 	const { account } = useAccount();
+
+	const { pathname } = useRouter();
 
 	return (
 		<section>
@@ -75,7 +78,7 @@ const Navbar = () => {
 				</nav>
 			</div>
 
-			{account.data && (
+			{account.data && !pathname.includes("/marketplace") && (
 				<div className="flex justify-end pt-1 sm:px-6 lg:px-8">
 					<div className="text-white bg-indigo-600 rounded-md p-2">
 						{account.data}
