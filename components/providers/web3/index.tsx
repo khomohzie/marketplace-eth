@@ -8,7 +8,7 @@ import {
 } from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
 import Web3 from "web3";
-import { MetaMaskEthereumProvider } from "@/interfaces";
+import { IAccount, MetaMaskEthereumProvider } from "@/interfaces";
 import { toast } from "react-toastify";
 import { setupHooks } from "./hooks/setupHooks";
 
@@ -16,7 +16,7 @@ type TContextValue = {
 	connect: () => void;
 	getHooks: () => {
 		useAccount: () => {
-			account: string | null;
+			account: IAccount;
 		};
 	};
 	provider: MetaMaskEthereumProvider;
@@ -64,7 +64,7 @@ export default function Web3Provider({ children }: { children: ReactNode }) {
 		return {
 			...web3Api,
 			isWeb3Loaded: web3 != null,
-			getHooks: () => setupHooks(web3),
+			getHooks: () => setupHooks(web3, provider),
 			connect: provider
 				? async () => {
 						try {
@@ -98,12 +98,12 @@ export function useHooks(
 		hooks: ReturnType<
 			() => {
 				useAccount: () => {
-					account: string | null;
+					account: IAccount;
 				};
 			}
 		>
 	) => () => {
-		account: string | null;
+		account: IAccount;
 	}
 ) {
 	const { getHooks } = useWeb3()!;

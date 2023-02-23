@@ -10,7 +10,6 @@ const Navbar = () => {
 
 	return (
 		<section>
-			{account}
 			<div className="relative pt-6 px-4 sm:px-6 lg:px-8">
 				<nav className="relative" aria-label="Global">
 					<div className="flex justify-between items-center">
@@ -47,7 +46,18 @@ const Navbar = () => {
 									Loading...
 								</Button>
 							) : isWeb3Loaded ? (
-								<Button onClick={connect!}>Connect</Button>
+								account.data ? (
+									<Button
+										hoverable={false}
+										className="cursor-default"
+									>
+										{`Hi there${
+											account.isAdmin ? ", admin" : ""
+										}`}
+									</Button>
+								) : (
+									<Button onClick={connect!}>Connect</Button>
+								)
 							) : (
 								<Button
 									onClick={() =>
@@ -64,6 +74,14 @@ const Navbar = () => {
 					</div>
 				</nav>
 			</div>
+
+			{account.data && (
+				<div className="flex justify-end pt-1 sm:px-6 lg:px-8">
+					<div className="text-white bg-indigo-600 rounded-md p-2">
+						{account.data}
+					</div>
+				</div>
+			)}
 		</section>
 	);
 };

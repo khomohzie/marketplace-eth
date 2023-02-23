@@ -1,8 +1,9 @@
 import Web3 from "web3";
 import { handler as createUseAccount } from "./useAccount";
+import { MetaMaskEthereumProvider } from "@/interfaces";
 
-export const setupHooks = (web3: Web3) => {
+export const setupHooks = (...deps: [Web3, MetaMaskEthereumProvider]) => {
 	return {
-		useAccount: createUseAccount(web3),
+		useAccount: createUseAccount(...deps),
 	};
 };

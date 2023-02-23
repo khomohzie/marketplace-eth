@@ -1,3 +1,5 @@
+import { KeyedMutator } from "swr";
+
 export interface ICourse {
 	id: string;
 	type: string;
@@ -9,6 +11,15 @@ export interface ICourse {
 	slug: string;
 	wsl: string[];
 	createdAt: string;
+}
+
+export interface IAccount {
+	data?: string;
+	isAdmin: boolean;
+	error: any;
+	isValidating: boolean;
+	isLoading: boolean;
+	mutate: KeyedMutator<any>;
 }
 
 export interface MetaMaskEthereumProvider {
